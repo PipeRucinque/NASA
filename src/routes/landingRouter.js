@@ -3,8 +3,9 @@
 const express = require("express")
 const router = express.Router()
 
-const Landing = require("../models/landing.js")
+const {Landing, validateLanding} = require("../models/landing.js")
 
+// http://localhost:3000/api/astronomy/landings
 router.get("/", async(req, res) => {
     if(req.query.minimum_mass) {
         return res.send(await Landing.find({mass: {$gte: req.query.minimum_mass}}).select("name mass"))
@@ -33,11 +34,15 @@ router.get("/class/:recclass", async(req, res) => {
 })
 
 router.post('/create', async(req, res) => {
+    const {error} = validateLanding(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
     const landing = new Landing(req.body)
     res.send(await landing.save())
 })
 
 router.put('/edit/:id', async(req, res) => {
+    const {error} = validateLanding(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
     console.log(req.params.id);
     res.send(await Landing.findOneAndUpdate({id: req.params.id}, req.body, {new: true}))
 })

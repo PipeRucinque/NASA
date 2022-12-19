@@ -2,6 +2,8 @@
 // Modulo de Express levanta los servidores
 // Aqui se conectara con todas las rutas (routes) 
 
+require('dotenv').config()
+
 const express = require("express")
 const app = express()
 app.use(express.json())
