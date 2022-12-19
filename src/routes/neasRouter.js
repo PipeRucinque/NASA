@@ -3,8 +3,9 @@
 const express = require("express")
 const router = express.Router()
 
-const Neas = require("../models/neas.js")
+const {Neas, validateNeas} = require("../models/neas.js")
 
+// http://localhost:3000/api/astronomy/neas
 router.get("/", async(req, res) => {
     if(req.query.class) {
         const reqQuery = req.query.class
@@ -32,11 +33,15 @@ router.get("/designation/:designation", async(req, res) => {
 })
 
 router.post('/create', async(req, res) => {
+    const {error} = validateNeas(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
     const neas = new Neas(req.body)
     res.send(await neas.save())
 })
 
 router.put('/edit/:designation', async(req, res) => {
+    const {error} = validateNeas(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
     const designationRP = req.params.designation.replaceAll("-", " ")
     res.send(await Neas.findOneAndUpdate({designation: designationRP}, req.body, {new: true}))
 })

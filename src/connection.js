@@ -4,7 +4,7 @@
 const mongoose = require("mongoose")
 
 module.exports = function () {
-    mongoose.connect('mongodb://127.0.0.1:27017/NASA')
+    mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("Conectado con MongoDB"))
     .catch(() => console.log("Error de conexión con MongoDB: ", err))
 }

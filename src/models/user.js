@@ -1,3 +1,4 @@
+const Joi = require("joi")
 const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema({
@@ -14,4 +15,19 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema)
 
-module.exports = User
+function validateUser(user) {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        nickname: Joi.string(),
+        email: Joi.string(),
+        picture: Joi.string(),
+        affiliatedNumber: Joi.number().required().unique(),
+        affiliationDate: Joi.date(),
+        occupation: Joi.string(),
+        birthdate: Joi.date(),
+        neasDiscovered: Joi.array() //[{type: mongoose.Schema.Types.ObjectId, ref: 'Neas'}]
+    })    
+}
+
+module.exports.User = User
+module.exports.validateUser = validateUser
