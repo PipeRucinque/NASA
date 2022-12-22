@@ -25,12 +25,12 @@ router.get("/:id", async(req, res) => {
 })
 
 router.get("/mass/:mass", async(req, res) => {
-    res.send(await Landing.find({mass: req.params.mass}).select("name mass"))
+    res.send(await Landing.find({mass: req.params.mass}).select("name mass geolocation"))
 })
 
 router.get("/class/:recclass", async(req, res) => {
     const recclass = req.params.recclass.toUpperCase()
-    res.send(await Landing.find({recclass: recclass}).select("name recclass"))
+    res.send(await Landing.find({recclass: recclass}).select("name recclass geolocation"))
 })
 
 router.post('/create', async(req, res) => {

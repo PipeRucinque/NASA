@@ -2,6 +2,8 @@
 // Modulo de Express levanta los servidores
 // Aqui se conectara con todas las rutas (routes) 
 
+// ruta que entrega dashboard.render.com: https://nasa-j6wi.onrender.com/ping
+
 require('dotenv').config()
 
 const express = require("express")
